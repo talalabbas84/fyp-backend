@@ -60,9 +60,9 @@ exports.login = asynchandler(async (req, res, next) => {
 const sendTokenResponse = (user, statusCode, res) => {
   //Create token
   const token = user.getSignedJwtToken(user);
-  if (process.env.NODE_ENV === 'production') {
-    options.secure = true;
-  }
+  // if (process.env.NODE_ENV === 'production') {
+  //   options.secure = true;
+  // }
 
   res.status(statusCode).json({ success: true, token, user });
 };

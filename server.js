@@ -17,6 +17,7 @@ const bodyParser = require('body-parser');
 
 const connectDb = require(`./config/db`);
 const errorHandler = require(`./middleware/error`);
+const auth = require('./routes/auth');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -39,7 +40,6 @@ if (cluster.isMaster) {
   if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
   }
-
   // File uploading
   app.use(fileupload());
 
@@ -71,7 +71,7 @@ if (cluster.isMaster) {
   app.use(express.static(path.join(__dirname, 'public')));
 
   //Mount routers
-  // app.use(`/api/v1/bootcamps`, bootcamps);
+  app.use(`/api/v1/auth`, auth);
 
   app.use(errorHandler);
 

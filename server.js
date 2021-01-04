@@ -18,6 +18,7 @@ const bodyParser = require('body-parser');
 const connectDb = require(`./config/db`);
 const errorHandler = require(`./middleware/error`);
 const auth = require('./routes/auth');
+const song = require('./routes/song');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -72,6 +73,7 @@ if (cluster.isMaster) {
 
   //Mount routers
   app.use(`/api/v1/auth`, auth);
+  app.use(`/api/v1/song`, song);
 
   app.use(errorHandler);
 

@@ -55,3 +55,10 @@ exports.addSong = asynchandler(async (req, res, next) => {
     return res.status(200).json({ success: true, data: song });
   });
 });
+
+exports.getSongs = asynchandler(async (req, res, next) => {
+  const songs = await Song.find({});
+  // if (songs) {
+  return res.status(200).json({ success: true, data: songs });
+  // }
+});

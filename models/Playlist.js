@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 const songSchema = new mongoose.Schema({
-  description: {
+  name: {
     type: String,
-    required: [true, 'Please Add a description']
+    required: [true, 'Please Add a name']
   },
-  url: {
-    type: String,
-    required: [true, 'Please add a url']
+  song: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
+    ref: 'Song'
+  },
+  description: {
+    type: String
   },
   user: {
     type: mongoose.Schema.ObjectId,

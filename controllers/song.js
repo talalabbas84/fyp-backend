@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 //@route PUT /api/v1/bootcamps/:id/photo
 
 const Song = require('../models/Song');
+const asyncHandler = require('../middleware/async');
 
 // @access Private
 exports.addSong = asynchandler(async (req, res, next) => {
@@ -62,3 +63,8 @@ exports.getSongs = asynchandler(async (req, res, next) => {
   return res.status(200).json({ success: true, data: songs });
   // }
 });
+
+exports.getSongById =  asyncHandler(async(req,res,next) => {
+  const song = await Song.findById(req.params.id).populate('user');
+   return res.status(200).json({ success: true, data: song });
+})

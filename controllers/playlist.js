@@ -50,7 +50,12 @@ exports.getPlaylistWithId = asynchandler(async (req, res, next) => {
 });
 
 exports.getPlaylists = asynchandler(async (req, res, next) => {
-  const playlists = await Playlist.find({}).populate('song user');
+  const playlists = await Playlist.find({}).populate({
+    path: 'user song',
+    populate: {
+      path: 'user'
+    }
+  });
 
   return res.status(200).json({
     success: true,

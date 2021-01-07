@@ -57,7 +57,7 @@ exports.addSong = asynchandler(async (req, res, next) => {
 });
 
 exports.getSongs = asynchandler(async (req, res, next) => {
-  const songs = await Song.find({});
+  const songs = await Song.find({}).populate('user');
   // if (songs) {
   return res.status(200).json({ success: true, data: songs });
   // }

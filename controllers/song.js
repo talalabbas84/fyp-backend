@@ -12,12 +12,11 @@ const asyncHandler = require('../middleware/async');
 // @access Private
 exports.addSong = asynchandler(async (req, res, next) => {
   // const user = await User.findById(req.params.id);
-  console.log(req.body.text);
-  const user = req.user;
+  // console.log(req.body.text);
+  const user = req.body._id;
+  console.log(user);
   if (!user) {
-    return next(
-      new ErrorResponse(`User not found with id of ${req.user._id}`, 404)
-    );
+    return next(new ErrorResponse(`User not found`, 404));
   }
 
   if (!req.files) {
@@ -50,7 +49,7 @@ exports.addSong = asynchandler(async (req, res, next) => {
     // await Bootcamp.findByIdAndUpdate(req.params.id, { photo: file.name });
     const song = await Song.create({
       description: req.body.description,
-      user: req.user._id,
+      user: req.body._id,
       url: file.name
     });
     return res.status(200).json({ success: true, data: song });
@@ -64,7 +63,7 @@ exports.getSongs = asynchandler(async (req, res, next) => {
   // }
 });
 
-exports.getSongById =  asyncHandler(async(req,res,next) => {
+exports.getSongById = asyncHandler(async (req, res, next) => {
   const song = await Song.findById(req.params.id).populate('user');
-   return res.status(200).json({ success: true, data: song });
-})
+  return res.status(200).json({ success: true, data: song });
+});

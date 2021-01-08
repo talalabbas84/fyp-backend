@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
-const postSchema = new mongoose.Schema({
-  name: {
+const songSchema = new mongoose.Schema({
+  title: {
     type: String,
-    required: [true, 'Please Add a name']
-  },
-  song: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
-    ref: 'Song'
+    required: [true, 'Please Add a title']
   },
   description: {
     type: String
@@ -15,6 +11,9 @@ const postSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: true
+  },
+  url: {
+    type: String
   },
   createdAt: {
     type: Date,

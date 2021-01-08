@@ -20,6 +20,7 @@ const errorHandler = require(`./middleware/error`);
 const auth = require('./routes/auth');
 const song = require('./routes/song');
 const playlist = require('./routes/playlist');
+const post = require('./routes/post');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -76,6 +77,7 @@ if (cluster.isMaster) {
   app.use(`/api/v1/auth`, auth);
   app.use(`/api/v1/song`, song);
   app.use('/api/v1/playlist', playlist);
+  app.use('/api/v1/post', post);
 
   app.use(errorHandler);
 

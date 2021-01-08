@@ -25,7 +25,10 @@ exports.addSongToPlaylist = asynchandler(async (req, res, next) => {
   if (songss && songss.length > 0) {
     {
       return next(
-        new ErrorResponse(`Song already exists in the playlist`, 500)
+        new ErrorResponse(
+          { success: false, message: 'Song already exists in the playlist' },
+          500
+        )
       );
     }
   }
@@ -41,19 +44,15 @@ exports.addSongToPlaylist = asynchandler(async (req, res, next) => {
   if (playlist) {
     return res.status(200).json({ success: true, data: playlist });
   } else {
-    return next(
-      new ErrorResponse(
-        { success: false, message: 'Song already exists in the playlist' },
-        500
-      )
-    );
+    return next(new ErrorResponse('Problem adding song to playlist', 500));
   }
 });
 
 exports.getPlaylistWithId = asynchandler(async (req, res, next) => {
-  const playlist = await Playlist.find({ _id: req.params.id }).populate(
-    'song user'
-  );
+  const playlist = await Playlist.find({ _id: req.params.id }).populate({
+    path: 'song user',
+    populate: 'user'
+  });
 
   return res.status(200).json({
     success: true,

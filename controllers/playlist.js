@@ -20,6 +20,17 @@ exports.createPlaylist = asynchandler(async (req, res, next) => {
 
 exports.addSongToPlaylist = asynchandler(async (req, res, next) => {
   const { song, _id } = req.body;
+
+  const songss = await Playlist.find({ _id: _id, song: { $in: [song] } });
+  if (songss && songss.length > 0) {
+    {
+      return next(
+        new ErrorResponse(`Song already exists in the playlist`, 500)
+      );
+    }
+  }
+
+  // return res.status(200).json({ success: false, data: songss });
   const playlist = await Playlist.findByIdAndUpdate(
     _id,
     { $push: { song: song } },
@@ -31,7 +42,10 @@ exports.addSongToPlaylist = asynchandler(async (req, res, next) => {
     return res.status(200).json({ success: true, data: playlist });
   } else {
     return next(
-      new ErrorResponse(`There is a problem creating the playlist`, 500)
+      new ErrorResponse(
+        { success: false, message: 'Song already exists in the playlist' },
+        500
+      )
     );
   }
 });

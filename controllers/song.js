@@ -67,3 +67,8 @@ exports.getSongById = asyncHandler(async (req, res, next) => {
   const song = await Song.findById(req.params.id).populate('user');
   return res.status(200).json({ success: true, data: song });
 });
+
+exports.getSongbyLyrics = asyncHandler(async (req, res, next) => {
+  const lyrics = req.body.lyrics;
+  return res.status(200).json({ success: true, data: true });
+});

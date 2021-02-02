@@ -12,6 +12,7 @@
   "author": "Talal Abbas",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "babel-plugin-generator-prettier": "^1.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -33,7 +34,10 @@
     "nodemailer": "^6.4.6",
     "redis": "^3.0.2",
     "slugify": "^1.4.0",
+    "tonegenerator": "^0.3.2",
     "uuid": "^8.3.2",
+    "wav": "^1.0.2",
+    "wavefile": "^11.0.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

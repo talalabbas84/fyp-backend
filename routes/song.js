@@ -9,9 +9,9 @@ const {
 
 const { protect } = require('../middleware/auth');
 const { route } = require('./auth');
+router.post('/get-song-by-lyrics', getSongbyLyrics);
 router.post('/add-song', addSong);
 router.get('/', getSongs);
 router.get('/:id', getSongById);
-router.post('/get-song-by-lyrics', getSongbyLyrics);
 
 module.exports = router;

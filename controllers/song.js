@@ -1,7 +1,12 @@
 const asynchandler = require(`../middleware/async`);
 const ErrorResponse = require(`../utils/errorResponse`);
 const path = require('path');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
+const WaveFile = require('wavefile').WaveFile;
+const tone = require('tonegenerator');
+const wav = require('wav');
 
 // @desc Upload photo for bootcamp
 //@route PUT /api/v1/bootcamps/:id/photo
@@ -70,5 +75,36 @@ exports.getSongById = asyncHandler(async (req, res, next) => {
 
 exports.getSongbyLyrics = asyncHandler(async (req, res, next) => {
   const lyrics = req.body.lyrics;
-  return res.status(200).json({ success: true, data: true });
+
+  axios
+    .get(`http://127.0.0.1:5000/generate?lyrics=${lyrics}`)
+    .then(function (response) {
+      // console.log(response);
+      // console.log();
+      // fs.
+      // var buf = new Buffer(response, 'base64'); // decode
+      // fs.writeFile('temp/test.wav', buf, function (err) {
+      //   if (err) {
+      //     console.log('err', err);
+      //   } else {
+      //     return res.json({ status: 'success' });
+      //   }
+      // });
+      // fs.writeFile('<fileName>',<contenet>, callbackFunction)
+      // console.log(response.data);
+      // let wav = new WaveFile(response.toString());
+      // console.log(wav.container);
+      // console.log(wav.chunkSize);
+      // console.log(wav.fmt.chunkId);
+      // console.log(response.toString())
+      // const test = fs.readFileSync(response);
+      // test.mv(`${process.env.FILE_UPLOAD_PATH}/test`, async err => {});
+      // const test = fs.writeFileSync('test.wav', response.data);
+      // const writer = new wav.FileWriter(response.data);
+
+      // writer.write(new Buffer(tone(220, 5))); // 220Hz for 5 seconds
+      // writer.end();
+      // console.log(test);
+      return res.status(200).json({ success: true, data: true });
+    });
 });

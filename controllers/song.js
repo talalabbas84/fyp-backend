@@ -8,8 +8,18 @@ const WaveFile = require('wavefile').WaveFile;
 const tone = require('tonegenerator');
 const wav = require('wav');
 
+const cloudinary = require('cloudinary').v2;
 // @desc Upload photo for bootcamp
 //@route PUT /api/v1/bootcamps/:id/photo
+
+cloudinary.config({
+  cloud_name: 'dkmctcivw',
+  api_key: '684775128763765',
+  api_secret: 'SSNzQQozA412eYAEgUae502s4lg'
+});
+
+CLOUDINARY_URL =
+  'cloudinary://684775128763765:SSNzQQozA412eYAEgUae502s4lg@dkmctcivw';
 
 const Song = require('../models/Song');
 const asyncHandler = require('../middleware/async');
@@ -76,9 +86,35 @@ exports.getSongById = asyncHandler(async (req, res, next) => {
 exports.getSongbyLyrics = asyncHandler(async (req, res, next) => {
   const lyrics = req.body.lyrics;
 
+  let dataa = {};
+
   axios
-    .get(`http://127.0.0.1:5000/generate?lyrics=${lyrics}`)
-    .then(function (response) {
+    .get(`http://localhost:5000/generate?lyrics=${lyrics}`)
+    .then(async response => {
+      console.log('Cloudinary');
+      console.log(response.data);
+      song_url_from_api = '';
+      dataa = await cloudinary.uploader.upload(
+        '/home/remu/Desktop/FYP/fyp-model-backend/test.wav',
+        {
+          resource_type: 'video',
+          overwrite: true
+        },
+        function (error, result) {
+          if (result) {
+            song_url_from_api = result.url;
+          }
+        }
+      );
+
+      if (dataa) {
+        return res.status(200).json({
+          success: true,
+          data: song_url_from_api,
+          duration: dataa.duration
+        });
+      }
+
       // console.log(response);
       // console.log();
       // fs.
@@ -105,6 +141,13 @@ exports.getSongbyLyrics = asyncHandler(async (req, res, next) => {
       // writer.write(new Buffer(tone(220, 5))); // 220Hz for 5 seconds
       // writer.end();
       // console.log(test);
-      return res.status(200).json({ success: true, data: true });
+    })
+    .catch(e => {
+      return next(
+        new ErrorResponse(
+          `Music will only be generated with english words`,
+          500
+        )
+      );
     });
 });
